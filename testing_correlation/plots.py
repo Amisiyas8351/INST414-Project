@@ -1,29 +1,58 @@
-from pathlib import Path
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+import statsmodels.api as sm
+from scipy.stats import probplot
 
-from loguru import logger
-from tqdm import tqdm
-import typer
+def plot_residuals_vs_fitted(y_pred, residuals):
+    plt.figure(figsize=(6, 4))
+    sns.residplot(x=y_pred, y=residuals, lowess=True, line_kws={'color': 'red'})
+    plt.xlabel("Fitted Values")
+    plt.ylabel("Residuals")
+    plt.title("Residuals vs Fitted")
+    plt.axhline(0, color='black', linestyle='dashed')
+    plt.show()
 
-from testing_correlation.config import FIGURES_DIR, PROCESSED_DATA_DIR
+def plot_qq(residuals):
+    plt.figure(figsize=(6, 4))
+    probplot(residuals, dist="norm", plot=plt)
+    plt.title("Q-Q Plot")
+    plt.show()
 
-app = typer.Typer()
+def plot_scale_location(y_pred, residuals):
+    plt.figure(figsize=(6, 4))
+    sns.scatterplot(x=y_pred, y=np.sqrt(np.abs(residuals)))
+    plt.xlabel("Fitted Values")
+    plt.ylabel("√|Residuals|")
+    plt.title("Scale-Location Plot")
+    plt.axhline(0, color='black', linestyle='dashed')
+    plt.show()
 
+def plot_residuals_vs_leverage(X, y):
+    X_with_const = sm.add_constant(X)
+    sm_model = sm.OLS(y, X_with_const).fit()
+    sm.graphics.influence_plot(sm_model, criterion="cooks")
+    plt.title("Residuals vs Leverage")
+    plt.show()
 
-@app.command()
-def main(
-    # ---- REPLACE DEFAULT PATHS AS APPROPRIATE ----
-    input_path: Path = PROCESSED_DATA_DIR / "dataset.csv",
-    output_path: Path = FIGURES_DIR / "plot.png",
-    # -----------------------------------------
-):
-    # ---- REPLACE THIS WITH YOUR OWN CODE ----
-    logger.info("Generating plot from data...")
-    for i in tqdm(range(10), total=10):
-        if i == 5:
-            logger.info("Something happened for iteration 5.")
-    logger.success("Plot generation complete.")
-    # -----------------------------------------
+def plot_histogram(residuals):
+    plt.figure(figsize=(6, 4))
+    plt.hist(residuals, bins=20, edgecolor='black', alpha=0.7)
+    plt.xlabel("Residuals")
+    plt.ylabel("Frequency")
+    plt.title("Histogram of Residuals")
+    plt.show()
 
-
-if __name__ == "__main__":
-    app()
+def plot_regression_line(X, y, model):
+    slope = model.coef_[0]
+    intercept = model.intercept_
+    x_range = [X.min().values[0], X.max().values[0]]
+    y_range = [slope * x + intercept for x in x_range]
+    
+    plt.scatter(X, y, color='blue', label="Actual Data")
+    plt.plot(x_range, y_range, color='red', linewidth=2, label="Regression Line")
+    plt.xlabel("Education Level")
+    plt.ylabel("Income")
+    plt.title("Regression Line Plot")
+    plt.legend()
+    plt.show()
