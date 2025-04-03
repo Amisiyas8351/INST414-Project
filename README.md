@@ -58,7 +58,7 @@ The data processing pipeline is located in `testing_correlation/dataset.py` and 
 
    Once the data has been processed, you can train and evaluate the model using the following steps:
 
-## Train and evaluate the model:
+## Training and evaluating the model:
 
 1. **Model training**
 
