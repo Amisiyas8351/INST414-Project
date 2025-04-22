@@ -4,6 +4,7 @@ from plots import plot_residuals_vs_fitted, plot_qq, plot_scale_location, plot_h
 
 from correlation import calculate_p_value
 import numpy as np
+from sklearn.metrics import r2_score
 
 #Load data
 df = load_data('data/processed/education_income.csv')
@@ -30,3 +31,13 @@ plot_residuals_vs_order(residuals)
 #Calculating p-value (F-test)
 p_value = calculate_p_value(y, y_pred, residuals, X)
 print(f"P-Value: {p_value}")
+
+n = len(y)
+k = X.shape[1]
+SSR = np.sum((y_pred - np.mean(y))**2)
+SSE = np.sum(residuals**2)
+F_statistic = (SSR / k) / (SSE / (n - k - 1))
+r2 = r2_score(y, y_pred)
+
+print("F-statistic =", F_statistic)
+print("R-squared =", r2)

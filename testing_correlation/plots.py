@@ -9,7 +9,7 @@ def plot_residuals_vs_fitted(y_pred, residuals):
     sns.residplot(x=y_pred, y=residuals, lowess=True, line_kws={'color': 'red'})
     plt.xlabel("Fitted Values")
     plt.ylabel("Residuals")
-    plt.title("Residuals vs Fitted")
+    plt.title("Residuals vs Fitted 2")
     plt.axhline(0, color='black', linestyle='dashed')
     plt.show()
 
