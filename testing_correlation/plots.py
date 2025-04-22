@@ -56,3 +56,12 @@ def plot_regression_line(X, y, model):
     plt.title("Regression Line Plot")
     plt.legend()
     plt.show()
+
+def plot_residuals_vs_order(residuals):
+    plt.figure(figsize=(6, 4))
+    plt.plot(residuals.values, marker='o', linestyle='-')
+    plt.axhline(0, color='red', linestyle='--')
+    plt.xlabel("Observation Order")
+    plt.ylabel("Residuals")
+    plt.title("Residuals vs Order")
+    plt.show()
