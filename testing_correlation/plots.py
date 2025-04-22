@@ -28,13 +28,6 @@ def plot_scale_location(y_pred, residuals):
     plt.axhline(0, color='black', linestyle='dashed')
     plt.show()
 
-def plot_residuals_vs_leverage(X, y):
-    X_with_const = sm.add_constant(X)
-    sm_model = sm.OLS(y, X_with_const).fit()
-    sm.graphics.influence_plot(sm_model, criterion="cooks")
-    plt.title("Residuals vs Leverage")
-    plt.show()
-
 def plot_histogram(residuals):
     plt.figure(figsize=(6, 4))
     plt.hist(residuals, bins=20, edgecolor='black', alpha=0.7)

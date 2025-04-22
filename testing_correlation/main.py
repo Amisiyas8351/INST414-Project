@@ -1,6 +1,6 @@
 from dataset import load_data
 from modeling.train import train_model
-from plots import plot_residuals_vs_fitted, plot_qq, plot_scale_location, plot_residuals_vs_leverage, plot_histogram, plot_regression_line, plot_residuals_vs_order
+from plots import plot_residuals_vs_fitted, plot_qq, plot_scale_location, plot_histogram, plot_regression_line, plot_residuals_vs_order
 
 from correlation import calculate_p_value
 import numpy as np
@@ -23,7 +23,6 @@ residuals = y - y_pred
 plot_residuals_vs_fitted(y_pred, residuals)
 plot_qq(residuals)
 plot_scale_location(y_pred, residuals)
-plot_residuals_vs_leverage(X, y)
 plot_histogram(residuals)
 plot_regression_line(X, y, model)
 plot_residuals_vs_order(residuals)
